@@ -1,0 +1,198 @@
+'use client';
+
+import { useState } from 'react';
+import { User, Phone, Mail, MapPin, Calendar } from 'lucide-react';
+import { Button } from '@/components';
+import { Input } from '@/components';
+import { Label } from '@/components';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import Link from 'next/link';
+import Image from 'next/image';
+import logo from '../../../../public/assets/logo.png';
+
+export default function Signup() {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phoneNumber: '',
+    emailAddress: '',
+    age: '',
+    zipCode: '',
+    smoker: '',
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSmokerChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      smoker: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Signup attempt:', formData);
+  };
+
+  return (
+    <div className="h-screen min-h-screen flex flex-col lg:flex-row p-5 gap-5">
+      {/* Left Panel - Image Background */}
+      <div className="w-full lg:w-1/2 relative overflow-hidden rounded-[12px] min-h-[250px]">
+        {/* Background Image */}
+        <img
+          src="/assets/insurance.jpg"
+          alt="Insurance"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+
+        {/* Overlay Content */}
+        <div className="flex flex-col justify-between items-start p-4 sm:p-6 md:p-10 lg:p-12 text-white relative z-10 h-full bg-black/40">
+  <h1 className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-5 leading-tight">
+    Our Insurance Policies <br />
+    Are Smart Choice
+  </h1>
+
+  <p className="text-xs sm:text-sm md:text-base lg:text-lg text-white/90 leading-relaxed max-w-xs sm:max-w-sm md:max-w-md">
+    Get The Best & Friendly Insurance Policies For Upcoming Customers. 
+    We Handle Over 1M+ Customers All Over The World.
+  </p>
+</div>
+      </div>
+
+      {/* Right Panel - Signup Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-8 bg-white rounded-[12px]">
+        <div className="w-full max-w-lg">
+          {/* Logo */}
+          <div className="text-center mb-6 md:mb-8">
+            <Image src={logo} alt="Company Logo" width={300} height={40} className="mx-auto"/>
+          </div>
+
+          {/* Welcome Header */}
+          <div className="text-center mb-6 md:mb-8">
+            <h3 className="text-2xl md:text-[40px] font-poppins text-[#3C3C3C] font-bold mb-2">Welcome Back</h3>
+            <p className="text-[#1C1C1C] text-sm md:text-base">Please Login Into Your Account</p>
+          </div>
+
+          {/* Signup Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Full Name and Phone Number Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  type="text"
+                  name="fullName"
+                  placeholder="Your Full Name"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  className="pl-10 h-11 bg-white border-gray-200 focus:border-green-500 focus:ring-green-500 text-sm"
+                  required
+                />
+              </div>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  type="tel"
+                  name="phoneNumber"
+                  placeholder="Phone Number"
+                  value={formData.phoneNumber}
+                  onChange={handleInputChange}
+                  className="pl-10 h-11 bg-white border-gray-200 focus:border-green-500 focus:ring-green-500 text-sm"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Email Address */}
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                type="email"
+                name="emailAddress"
+                placeholder="Email Address"
+                value={formData.emailAddress}
+                onChange={handleInputChange}
+                className="pl-10 h-11 bg-white border-gray-200 focus:border-green-500 focus:ring-green-500 text-sm"
+                required
+              />
+            </div>
+
+            {/* Age and Zip Code Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="relative">
+                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  type="number"
+                  name="age"
+                  placeholder="Enter Your Age"
+                  value={formData.age}
+                  onChange={handleInputChange}
+                  className="pl-10 h-11 bg-white border-gray-200 focus:border-green-500 focus:ring-green-500 text-sm"
+                  required
+                />
+              </div>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  type="text"
+                  name="zipCode"
+                  placeholder="Area Zip Code"
+                  value={formData.zipCode}
+                  onChange={handleInputChange}
+                  className="pl-10 h-11 bg-white border-gray-200 focus:border-green-500 focus:ring-green-500 text-sm"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Smoker Question */}
+            <div className="flex items-center space-x-6">
+              <Label className="text-sm font-medium text-[#03A765]">You Are Smoker?</Label>
+              <RadioGroup
+                value={formData.smoker}
+                onValueChange={handleSmokerChange}
+                className="flex space-x-6"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="yes" id="yes" className="data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"/>
+                  <Label htmlFor="yes" className="text-sm text-gray-600 cursor-pointer">Yes</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="no" id="no" className="data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"/>
+                  <Label htmlFor="no" className="text-sm text-gray-600 cursor-pointer">No</Label>
+                </div>
+              </RadioGroup>
+            </div>
+
+            {/* Terms and Conditions */}
+            <div className="text-center text-xs text-gray-500 leading-relaxed">
+              By Clicking Continue, You Agree To Our{' '}
+              <a href="#" className="text-[#1C1C1C] hover:text-green-600 font-medium">Terms & Conditions</a>{' '}
+              With{' '}
+              <a href="#" className="text-[#1C1C1C] hover:text-green-600 font-medium">Privacy Policy</a>
+            </div>
+
+            {/* Sign Up Button */}
+            <Button type="submit" className="w-full h-12 bg-[#03A765] hover:bg-green-600 text-white font-semibold rounded-lg transition-colors cursor-pointer">
+              <Link href="/" className="text-[#ffff] font-large transition-colors">Sign Up</Link>
+            </Button>
+
+            {/* Sign In Link */}
+            <div className="text-center">
+              <p className="text-sm text-gray-600">
+                Already have an account?{' '}
+                <Link href="/" className="text-[#008EB1] font-medium transition-colors">Login</Link>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
