@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../../../../public/assets/logo.png';
+import { ALREADY_HAVE_ACCOUNT, CONTINUE_WITH_CLICK, FOR_SMOKER, LOGIN_CONTENT, OUR_INSURANCE_POLICIES, PLEASE_LOGIN, POLICY_CONTENT, PRIVACY_POLICY, SIGNUP_CONTENT, SMART_CHOICE, TERMS_AND_CONDITIONS, WELCOME_BACK } from '@/constants/content';
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -54,13 +55,12 @@ export default function Signup() {
         {/* Overlay Content */}
         <div className="flex flex-col justify-between items-start p-4 sm:p-6 md:p-10 lg:p-12 text-white relative z-10 h-full bg-black/40">
   <h1 className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-5 leading-tight">
-    Our Insurance Policies <br />
-    Are Smart Choice
+    {OUR_INSURANCE_POLICIES} <br />
+    {SMART_CHOICE}
   </h1>
 
   <p className="text-xs sm:text-sm md:text-base lg:text-lg text-white/90 leading-relaxed max-w-xs sm:max-w-sm md:max-w-md">
-    Get The Best & Friendly Insurance Policies For Upcoming Customers. 
-    We Handle Over 1M+ Customers All Over The World.
+    {POLICY_CONTENT}
   </p>
 </div>
       </div>
@@ -75,8 +75,8 @@ export default function Signup() {
 
           {/* Welcome Header */}
           <div className="text-center mb-6 md:mb-8">
-            <h3 className="text-2xl md:text-[40px] font-poppins text-[#3C3C3C] font-bold mb-2">Welcome Back</h3>
-            <p className="text-[#1C1C1C] text-sm md:text-base">Please Login Into Your Account</p>
+            <h3 className="text-2xl md:text-[40px] font-poppins text-[#3C3C3C] font-bold mb-2">{WELCOME_BACK}</h3>
+            <p className="text-[#1C1C1C] text-sm md:text-base">{PLEASE_LOGIN}</p>
           </div>
 
           {/* Signup Form */}
@@ -153,7 +153,7 @@ export default function Signup() {
 
             {/* Smoker Question */}
             <div className="flex items-center space-x-6">
-              <Label className="text-sm font-medium text-[#03A765]">You Are Smoker?</Label>
+              <Label className="text-sm font-medium text-[#03A765]">{FOR_SMOKER}</Label>
               <RadioGroup
                 value={formData.smoker}
                 onValueChange={handleSmokerChange}
@@ -172,22 +172,22 @@ export default function Signup() {
 
             {/* Terms and Conditions */}
             <div className="text-center text-xs text-gray-500 leading-relaxed">
-              By Clicking Continue, You Agree To Our{' '}
-              <a href="#" className="text-[#1C1C1C] hover:text-green-600 font-medium">Terms & Conditions</a>{' '}
+              {CONTINUE_WITH_CLICK}{' '}
+              <a href="#" className="text-[#1C1C1C] hover:text-green-600 font-medium">{TERMS_AND_CONDITIONS}</a>{' '}
               With{' '}
-              <a href="#" className="text-[#1C1C1C] hover:text-green-600 font-medium">Privacy Policy</a>
+              <a href="#" className="text-[#1C1C1C] hover:text-green-600 font-medium">{PRIVACY_POLICY}</a>
             </div>
 
             {/* Sign Up Button */}
             <Button type="submit" className="w-full h-12 bg-[#03A765] hover:bg-green-600 text-white font-semibold rounded-lg transition-colors cursor-pointer">
-              <Link href="/" className="text-[#ffff] font-large transition-colors">Sign Up</Link>
+              <Link href="/" className="text-[#ffff] font-large transition-colors">{SIGNUP_CONTENT}</Link>
             </Button>
 
             {/* Sign In Link */}
             <div className="text-center">
               <p className="text-sm text-gray-600">
-                Already have an account?{' '}
-                <Link href="/" className="text-[#008EB1] font-medium transition-colors">Login</Link>
+                {ALREADY_HAVE_ACCOUNT}{' '}
+                <Link href="/" className="text-[#008EB1] font-medium transition-colors">{LOGIN_CONTENT}</Link>
               </p>
             </div>
           </form>
