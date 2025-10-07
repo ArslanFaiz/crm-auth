@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, MoreVertical, Paperclip, Smile, Send, Trash2 } from 'lucide-react';
 import { useAppSelector } from '@/app/redux/store';
+import Image from 'next/image';
 
 type MessageType = {
   sender: 'me' | 'them';
@@ -103,10 +104,12 @@ export default function Message() {
         {/* Logged in user profile */}
         <div className="p-4 border-b border-slate-200 flex items-center gap-3 bg-slate-50">
           {profile?.image ? (
-            <img
+            <Image
               src={profile.image}
-              alt={profile.name}
+              alt={profile.name || 'User'}
               className="w-10 h-10 rounded-full object-cover"
+              width={40}
+              height={40}
             />
           ) : (
             <div className="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-white font-semibold">
@@ -147,10 +150,12 @@ export default function Message() {
               }`}
             >
               {contact.avatar ? (
-                <img
+                <Image
                   src={contact.avatar}
                   alt={contact.name}
                   className="w-12 h-12 rounded-full object-cover"
+                  width={48}
+                  height={48}
                 />
               ) : (
                 <div className="w-12 h-12 rounded-full bg-teal-500 flex items-center justify-center text-white font-semibold">
@@ -183,10 +188,12 @@ export default function Message() {
             <div className="p-4 border-b border-slate-200 flex items-center justify-between relative">
               <div className="flex items-center gap-3">
                 {activeContact.avatar ? (
-                  <img
+                  <Image
                     src={activeContact.avatar}
                     alt={activeContact.name}
                     className="w-10 h-10 rounded-full object-cover"
+                    width={40}
+                    height={40}
                   />
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-white font-semibold">

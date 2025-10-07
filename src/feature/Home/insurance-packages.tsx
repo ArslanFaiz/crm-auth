@@ -6,7 +6,6 @@ import { Card } from '@/components/ui/card';
 import { insuranceData } from '@/constants/InsuranceData';
 import Image from 'next/image';
 import logo from '../../../public/assets/logo.png';
-import profile from '../../../public/assets/profile.png';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useAppSelector } from '@/app/redux/store';
@@ -15,6 +14,11 @@ import { useAppSelector } from '@/app/redux/store';
 import Profile from './profile';
 import Message from './message';
 import Setting from './setting';
+
+interface SignupData {
+  firstName?: string;
+  lastName?: string;
+}
 
 export default function InsurancePackages() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'messages' | 'settings' | 'packages'>('packages');
@@ -28,7 +32,7 @@ export default function InsurancePackages() {
   useEffect(() => {
     const storedData =
       typeof window !== 'undefined' ? localStorage.getItem('signup') : null;
-    let parsedData: any = {};
+    let parsedData: SignupData = {};
     if (storedData) parsedData = JSON.parse(storedData);
 
     const nameFromRedux = profileData?.name;
@@ -89,9 +93,11 @@ export default function InsurancePackages() {
         <div className="p-4 border-t border-[#3d5170]">
           <div className="flex items-center gap-3 mb-4">
             {profileData?.image ? (
-              <img
+              <Image
                 src={profileData.image}
                 alt={userName}
+                width={40}
+                height={40}
                 className="w-10 h-10 rounded-md object-cover"
               />
             ) : (
@@ -146,11 +152,12 @@ export default function InsurancePackages() {
                     key={pkg.id}
                     className="overflow-hidden border-gray-200 hover:shadow-lg transition-shadow"
                   >
-                    <div className="aspect-[4/2] overflow-hidden">
-                      <img
+                    <div className="aspect-[4/2] overflow-hidden relative">
+                      <Image
                         src={pkg.image}
                         alt={pkg.title}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
                       />
                     </div>
                     <div className="p-6">

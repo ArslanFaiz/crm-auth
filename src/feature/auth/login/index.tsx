@@ -106,10 +106,12 @@ export default function Login() {
     <div className="min-h-screen flex flex-col lg:flex-row p-5 gap-5 bg-white">
       {/* Left Panel */}
       <div className="w-full lg:w-1/2 relative overflow-hidden rounded-[12px] min-h-[250px]">
-        <img
+        <Image
           src="/assets/insurance.jpg"
           alt="Insurance"
-          className="absolute inset-0 w-full h-full object-cover"
+          fill
+          className="object-cover"
+          priority
         />
         <div className="absolute inset-0 flex flex-col justify-between items-start px-4 sm:px-6 md:px-10 lg:px-12 py-6 sm:py-8 md:py-12 bg-black/40 text-white">
           <h1 className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-5 leading-tight">

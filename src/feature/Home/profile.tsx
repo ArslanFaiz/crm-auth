@@ -18,29 +18,26 @@ export default function Profile() {
     zipCode: "12345",
     age: "30",
   });
+useEffect(() => {
+  const storedData =
+    typeof window !== "undefined" ? localStorage.getItem("signup") : null;
 
-  // 🔹 Load data from Redux or localStorage
-  useEffect(() => {
-    const storedData =
-      typeof window !== "undefined"
-        ? localStorage.getItem("signup")
-        : null;
-    let parsedData: any = {};
-    if (storedData) parsedData = JSON.parse(storedData);
+  let parsedData: Partial<typeof input> = {}; // ✅ fixed type instead of 'any'
 
-    setInput({
-      firstName: profile.name?.split(" ")[0] || parsedData.firstName || "James",
-      lastName:
-        profile.name?.split(" ")[1] || parsedData.lastName || "John",
-      email: profile.email || parsedData.emailAddress || "James123@gmail.com",
-      phone: profile.phone || parsedData.phoneNumber || "+1 234 567 8901",
-      address:
-        parsedData.address ||
-        "231 Oak Park Blvd Oakville, Ontario L6H 7S8, CA",
-      zipCode: parsedData.zipCode || "12345",
-      age: parsedData.age || "30",
-    });
-  }, [profile]);
+  if (storedData) parsedData = JSON.parse(storedData);
+
+  setInput({
+    firstName: profile.name?.split(" ")[0] || parsedData.firstName || "James",
+    lastName: profile.name?.split(" ")[1] || parsedData.lastName || "John",
+    email: profile.email || parsedData.email || "James123@gmail.com",
+    phone: profile.phone || parsedData.phone || "+1 234 567 8901",
+    address:
+      parsedData.address ||
+      "231 Oak Park Blvd Oakville, Ontario L6H 7S8, CA",
+    zipCode: parsedData.zipCode || "12345",
+    age: parsedData.age || "30",
+  });
+}, [profile]);
 
   // 🔹 Save changes to localStorage (to persist on refresh)
   useEffect(() => {

@@ -77,9 +77,11 @@ export default function Signup() {
     <div className="h-screen min-h-screen flex flex-col lg:flex-row p-5 gap-5">
       {/* Left Panel */}
       <div className="w-full lg:w-1/2 relative overflow-hidden rounded-[12px] min-h-[250px]">
-        <img
+        <Image
           src="/assets/insurance.jpg"
           alt="Insurance"
+          fill
+          priority
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="flex flex-col justify-between items-start p-4 sm:p-6 md:p-10 lg:p-12 text-white relative z-10 h-full bg-black/40">
