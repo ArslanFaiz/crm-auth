@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Eye, EyeOff, User, Lock } from 'lucide-react';
 import { Button } from '@/components';
 import { Input } from '@/components';
@@ -10,7 +10,20 @@ import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../../../../public/assets/logo.png';
 import { useRouter } from 'next/navigation';
-import { CONTINUE_WITH, CREATE_ACCOUNT, DONT_HAVE_ACCOUNT, FORGOT_PASSWORD, LOGIN_CONTENT, OUR_INSURANCE_POLICIES, PLEASE_LOGIN, POLICY_CONTENT, REMEMBER_ME, SMART_CHOICE, WELCOME_BACK } from '@/constants/content';
+import {
+  CONTINUE_WITH,
+  CREATE_ACCOUNT,
+  DONT_HAVE_ACCOUNT,
+  FORGOT_PASSWORD,
+  LOGIN_CONTENT,
+  OUR_INSURANCE_POLICIES,
+  PLEASE_LOGIN,
+  POLICY_CONTENT,
+  REMEMBER_ME,
+  SMART_CHOICE,
+  WELCOME_BACK,
+} from '@/constants/content';
+import { useAppSelector } from '@/app/redux/store';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -21,16 +34,36 @@ export default function Login() {
   });
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
   const router = useRouter();
+  const user = useAppSelector((state) => state.user);
+
+  // 🔹 Autofill email from Redux or localStorage
+  useEffect(() => {
+    if (user?.email) {
+      setFormData((prev) => ({
+        ...prev,
+        email: user.email || '',
+      }));
+    } else {
+      const stored = localStorage.getItem('signupData');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setFormData((prev) => ({
+          ...prev,
+          email: parsed.emailAddress || '',
+        }));
+      }
+    }
+  }, [user]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
-  // Validation function: email must match pattern, password must be >= 6 chars
+  // 🔹 Validation function
   const validDataform = () => {
     const errors: { email?: string; password?: string } = {};
 
@@ -49,7 +82,7 @@ export default function Login() {
     return errors;
   };
 
-  // Handle Submit: if validation passes (email pattern ok and password >=6) -> login
+  // 🔹 Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validDataform();
@@ -59,9 +92,10 @@ export default function Login() {
       return;
     }
 
-    localStorage.setItem("token", "dummy-token"); 
-    localStorage.setItem("user", JSON.stringify({ email: formData.email }));
-    router.push("/insurancePackages"); 
+    localStorage.setItem('token', 'dummy-token');
+    localStorage.setItem('user', JSON.stringify({ email: formData.email }));
+
+    router.push('/insurancePackages');
   };
 
   const handleGoogleLogin = () => {
@@ -70,42 +104,40 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row p-5 gap-5 bg-white">
-      {/* Left Panel - Promotional Content */}
+      {/* Left Panel */}
       <div className="w-full lg:w-1/2 relative overflow-hidden rounded-[12px] min-h-[250px]">
         <img
           src="/assets/insurance.jpg"
           alt="Insurance"
           className="absolute inset-0 w-full h-full object-cover"
         />
-
         <div className="absolute inset-0 flex flex-col justify-between items-start px-4 sm:px-6 md:px-10 lg:px-12 py-6 sm:py-8 md:py-12 bg-black/40 text-white">
           <h1 className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-5 leading-tight">
             {OUR_INSURANCE_POLICIES} <br />
             {SMART_CHOICE}
           </h1>
-
           <p className="text-xs sm:text-sm md:text-base lg:text-lg text-white/90 leading-relaxed max-w-xs sm:max-w-sm md:max-w-md">
             {POLICY_CONTENT}
           </p>
         </div>
       </div>
 
-      {/* Right Panel - Login Form */}
+      {/* Right Panel */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-8 bg-white rounded-[12px]">
         <div className="w-full max-w-md">
-          {/* Logo */}
           <div className="text-center mb-6 md:mb-8">
-            <Image src={logo} alt="Company Logo" width={300} height={40} className="mx-auto"/>
+            <Image src={logo} alt="Company Logo" width={300} height={40} className="mx-auto" />
           </div>
 
           <div className="text-center mb-6 md:mb-8">
-            <h3 className="text-2xl md:text-[40px] font-poppins text-[#3C3C3C] font-bold mb-2">{WELCOME_BACK}</h3>
+            <h3 className="text-2xl md:text-[40px] font-poppins text-[#3C3C3C] font-bold mb-2">
+              {WELCOME_BACK}
+            </h3>
             <p className="text-[#1C1C1C] text-sm md:text-base">{PLEASE_LOGIN}</p>
           </div>
 
-          {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-            {/* Email Field */}
+            {/* Email */}
             <div className="space-y-2">
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -122,7 +154,7 @@ export default function Login() {
               {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
             </div>
 
-            {/* Password Field */}
+            {/* Password */}
             <div className="space-y-2">
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -140,25 +172,21 @@ export default function Login() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
               </div>
               {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
             </div>
 
-            {/* Remember Me & Forgot Password */}
+            {/* Remember Me + Forgot Password */}
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="rememberMe"
                   name="rememberMe"
                   checked={formData.rememberMe}
-                  onCheckedChange={(checked) => 
-                    setFormData(prev => ({ ...prev, rememberMe: !!checked }))
+                  onCheckedChange={(checked) =>
+                    setFormData((prev) => ({ ...prev, rememberMe: !!checked }))
                   }
                   className="data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"
                 />
@@ -166,8 +194,8 @@ export default function Login() {
                   {REMEMBER_ME}
                 </Label>
               </div>
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="text-sm text-green-500 hover:text-green-600 font-medium transition-colors"
               >
                 {FORGOT_PASSWORD}
