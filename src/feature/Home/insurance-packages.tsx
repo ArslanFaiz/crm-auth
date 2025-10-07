@@ -23,12 +23,8 @@ interface SignupData {
 export default function InsurancePackages() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'messages' | 'settings' | 'packages'>('packages');
   const [selectedId, setSelectedId] = useState<number | null>(null);
-
-  // ✅ Get user from Redux
   const profileData = useAppSelector((state) => state.user);
   const [userName, setUserName] = useState('');
-
-  // ✅ Load name from Redux or localStorage
   useEffect(() => {
     const storedData =
       typeof window !== 'undefined' ? localStorage.getItem('signup') : null;
@@ -88,8 +84,6 @@ export default function InsurancePackages() {
             <span>Settings</span>
           </button>
         </nav>
-
-        {/* ✅ User Info in Sidebar */}
         <div className="p-4 border-t border-[#3d5170]">
           <div className="flex items-center gap-3 mb-4">
             {profileData?.image ? (
@@ -112,10 +106,7 @@ export default function InsurancePackages() {
           </div>
         </div>
       </aside>
-
-      {/* Main Content */}
       <main className="flex-1">
-        {/* ✅ Header */}
         <header className="bg-[#1C274C] px-8 py-5 flex justify-between items-center">
           <div>
             <p className="text-sm text-white">Welcome Back! {userName}</p>
@@ -127,16 +118,12 @@ export default function InsurancePackages() {
             </Button>
           </Link>
         </header>
-
-        {/* ✅ Main Area */}
         <div className="p-8 border rounded-tl-lg bg-white flex-1 min-h-[calc(100vh-80px)]">
           {activeTab === 'dashboard' && (
             <div className="h-full w-full">
               <Profile />
             </div>
           )}
-
-          {/* Packages Section */}
           {activeTab === 'packages' && (
             <>
               <div className="mb-8">

@@ -28,19 +28,13 @@ export default function Message() {
   const [searchTerm, setSearchTerm] = useState('');
   const [newMessage, setNewMessage] = useState('');
   const [showDeleteMenu, setShowDeleteMenu] = useState(false);
-
-  // ✅ Load chats from localStorage on mount
   useEffect(() => {
     const stored = localStorage.getItem('chatContacts');
     if (stored) setContacts(JSON.parse(stored));
   }, []);
-
-  // ✅ Save chats to localStorage whenever contacts change
   useEffect(() => {
     localStorage.setItem('chatContacts', JSON.stringify(contacts));
   }, [contacts]);
-
-  // ✅ Add logged-in user as contact if not already exists
   useEffect(() => {
     if (profile?.name) {
       setContacts((prev) => {
@@ -101,7 +95,6 @@ export default function Message() {
     <div className="h-full flex bg-white rounded-xl shadow-sm overflow-hidden">
       {/* Sidebar */}
       <div className="w-80 border-r border-slate-200 flex flex-col">
-        {/* Logged in user profile */}
         <div className="p-4 border-b border-slate-200 flex items-center gap-3 bg-slate-50">
           {profile?.image ? (
             <Image
@@ -121,8 +114,6 @@ export default function Message() {
             <p className="text-xs text-slate-500">Online</p>
           </div>
         </div>
-
-        {/* Search */}
         <div className="p-4 border-b border-slate-200">
           <div className="relative">
             <Search
@@ -138,8 +129,6 @@ export default function Message() {
             />
           </div>
         </div>
-
-        {/* Contacts List */}
         <div className="flex-1 overflow-y-auto">
           {filteredContacts.map((contact) => (
             <button
@@ -179,12 +168,9 @@ export default function Message() {
           ))}
         </div>
       </div>
-
-      {/* Chat Area */}
       <div className="flex-1 flex flex-col relative">
         {activeContact ? (
           <>
-            {/* Chat Header */}
             <div className="p-4 border-b border-slate-200 flex items-center justify-between relative">
               <div className="flex items-center gap-3">
                 {activeContact.avatar ? (
@@ -228,8 +214,6 @@ export default function Message() {
                 )}
               </div>
             </div>
-
-            {/* Chat Messages */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
               {activeContact.messages.map((msg, idx) => (
                 <div
@@ -259,8 +243,6 @@ export default function Message() {
                 </div>
               ))}
             </div>
-
-            {/* Message Input */}
             <div className="p-4 border-t border-slate-200">
               <div className="flex items-end gap-3">
                 <div className="flex-1 bg-slate-50 rounded-lg border border-slate-200 focus-within:border-teal-500 transition-colors">

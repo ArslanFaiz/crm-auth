@@ -59,23 +59,19 @@ export default function Signup() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Dispatch user data to Redux
     dispatch(updateProfile({
       name: formData.fullName,
       email: formData.emailAddress,
       phone: formData.phoneNumber,
     }));
-
-    // Store in localStorage for auto-fill
     localStorage.setItem('signupData', JSON.stringify(formData));
-
     console.log('Signup data saved to Redux:', formData);
-    router.push('/'); // redirect to login page after signup
+    router.push('/'); 
   };
 
   return (
     <div className="h-screen min-h-screen flex flex-col lg:flex-row p-5 gap-5">
-      {/* Left Panel */}
+      {/* Left Side */}
       <div className="w-full lg:w-1/2 relative overflow-hidden rounded-[12px] min-h-[250px]">
         <Image
           src="/assets/insurance.jpg"
@@ -95,7 +91,7 @@ export default function Signup() {
         </div>
       </div>
 
-      {/* Right Panel */}
+      {/* Right Side */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-8 bg-white rounded-[12px]">
         <div className="w-full max-w-lg">
           <div className="text-center mb-6 md:mb-8">
@@ -109,9 +105,7 @@ export default function Signup() {
             <p className="text-[#1C1C1C] text-sm md:text-base">{PLEASE_LOGIN}</p>
           </div>
 
-          {/* Signup Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Full Name & Phone */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -138,8 +132,6 @@ export default function Signup() {
                 />
               </div>
             </div>
-
-            {/* Email Address */}
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
@@ -152,8 +144,6 @@ export default function Signup() {
                 required
               />
             </div>
-
-            {/* Password Field */}
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
@@ -166,8 +156,6 @@ export default function Signup() {
                 required
               />
             </div>
-
-            {/* Age & Zip */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="relative">
                 <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -194,8 +182,6 @@ export default function Signup() {
                 />
               </div>
             </div>
-
-            {/* Smoker */}
             <div className="flex items-center space-x-6">
               <Label className="text-sm font-medium text-[#03A765]">{FOR_SMOKER}</Label>
               <RadioGroup
@@ -225,8 +211,6 @@ export default function Signup() {
                 </div>
               </RadioGroup>
             </div>
-
-            {/* Terms */}
             <div className="text-center text-xs text-gray-500 leading-relaxed">
               {CONTINUE_WITH_CLICK}{' '}
               <a href="#" className="text-[#1C1C1C] hover:text-green-600 font-medium">
@@ -237,16 +221,12 @@ export default function Signup() {
                 {PRIVACY_POLICY}
               </a>
             </div>
-
-            {/* Submit */}
             <Button
               type="submit"
               className="w-full h-12 bg-[#03A765] hover:bg-green-600 text-white font-semibold rounded-lg transition-colors cursor-pointer"
             >
               {SIGNUP_CONTENT}
             </Button>
-
-            {/* Login Link */}
             <div className="text-center">
               <p className="text-sm text-gray-600">
                 {ALREADY_HAVE_ACCOUNT}{' '}

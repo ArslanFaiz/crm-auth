@@ -35,8 +35,6 @@ export default function Login() {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
   const router = useRouter();
   const user = useAppSelector((state) => state.user);
-
-  // 🔹 Autofill email from Redux or localStorage
   useEffect(() => {
     if (user?.email) {
       setFormData((prev) => ({
@@ -63,7 +61,6 @@ export default function Login() {
     }));
   };
 
-  // 🔹 Validation function
   const validDataform = () => {
     const errors: { email?: string; password?: string } = {};
 
@@ -82,7 +79,6 @@ export default function Login() {
     return errors;
   };
 
-  // 🔹 Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validDataform();
@@ -104,7 +100,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row p-5 gap-5 bg-white">
-      {/* Left Panel */}
+      {/* Left Side */}
       <div className="w-full lg:w-1/2 relative overflow-hidden rounded-[12px] min-h-[250px]">
         <Image
           src="/assets/insurance.jpg"
@@ -124,7 +120,7 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Right Panel */}
+      {/* Right Side */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-8 bg-white rounded-[12px]">
         <div className="w-full max-w-md">
           <div className="text-center mb-6 md:mb-8">
@@ -139,7 +135,6 @@ export default function Login() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-            {/* Email */}
             <div className="space-y-2">
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -156,7 +151,6 @@ export default function Login() {
               {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
             </div>
 
-            {/* Password */}
             <div className="space-y-2">
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -179,8 +173,6 @@ export default function Login() {
               </div>
               {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
             </div>
-
-            {/* Remember Me + Forgot Password */}
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Checkbox
@@ -203,8 +195,6 @@ export default function Login() {
                 {FORGOT_PASSWORD}
               </a>
             </div>
-
-            {/* Login Button */}
             <Button
               type="submit"
               className="w-full h-12 bg-[#03A765] cursor-pointer hover:bg-green-600 text-white font-semibold rounded-lg transition-colors"
@@ -212,7 +202,6 @@ export default function Login() {
               {LOGIN_CONTENT}
             </Button>
 
-            {/* Sign Up Link */}
             <div className="text-center">
               <p className="text-gray-600">
                 {DONT_HAVE_ACCOUNT}{' '}
@@ -221,8 +210,6 @@ export default function Login() {
                 </Link>
               </p>
             </div>
-
-            {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-200"></div>
@@ -231,8 +218,6 @@ export default function Login() {
                 <span className="px-4 bg-gray-50 text-gray-500">Or</span>
               </div>
             </div>
-
-            {/* Google Login */}
             <Button
               type="button"
               onClick={handleGoogleLogin}

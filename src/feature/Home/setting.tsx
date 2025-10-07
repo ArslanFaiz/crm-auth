@@ -38,15 +38,12 @@ export default function Setting() {
         darkMode ? 'bg-slate-900 text-white' : 'bg-white text-slate-800'
       } shadow-sm rounded-xl p-6 overflow-y-auto`}
     >
-      {/* Header */}
       <div className={`mb-6 border-b pb-4 ${darkMode ? 'border-slate-700' : 'border-slate-200'}`}>
         <h2 className="text-2xl font-semibold">Settings</h2>
         <p className={`text-sm mt-1 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
           Manage your profile, preferences, and security.
         </p>
       </div>
-
-      {/* Profile Section */}
       <section className="mb-8">
         <h3 className="text-lg font-semibold mb-4">Profile Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -100,8 +97,6 @@ export default function Setting() {
               />
             </div>
           </div>
-
-          {/* ✅ Profile Image or First Letter */}
           <div className="flex items-center gap-4 mt-2">
             {profile.image ? (
               <Image
@@ -129,12 +124,9 @@ export default function Setting() {
           </div>
         </div>
       </section>
-
-      {/* Preferences Section */}
       <section className="mb-8">
         <h3 className="text-lg font-semibold mb-4">Preferences</h3>
         <div className="space-y-4">
-          {/* Dark Mode */}
           <div
             className={`flex items-center justify-between p-4 rounded-lg border transition ${
               darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
@@ -166,8 +158,6 @@ export default function Setting() {
               ></div>
             </button>
           </div>
-
-          {/* Notifications */}
           <div
             className={`flex items-center justify-between p-4 rounded-lg border transition ${
               darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
@@ -195,8 +185,6 @@ export default function Setting() {
               ></div>
             </button>
           </div>
-
-          {/* Language */}
           <div
             className={`flex items-center justify-between p-4 rounded-lg border transition ${
               darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
@@ -228,12 +216,9 @@ export default function Setting() {
           </div>
         </div>
       </section>
-
-      {/* Security Section */}
       <section className="mb-8">
         <h3 className="text-lg font-semibold mb-4">Security</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Current Password */}
           <div>
             <label className="text-sm font-medium mb-1 block">Current Password</label>
             <div className="relative">
@@ -251,8 +236,6 @@ export default function Setting() {
               />
             </div>
           </div>
-
-          {/* New Password */}
           <div>
             <label className="text-sm font-medium mb-1 block">New Password</label>
             <div className="relative">
@@ -270,8 +253,6 @@ export default function Setting() {
               />
             </div>
           </div>
-
-          {/* Confirm Password */}
           <div>
             <label className="text-sm font-medium mb-1 block">Confirm Password</label>
             <div className="relative">
@@ -291,8 +272,6 @@ export default function Setting() {
           </div>
         </div>
       </section>
-
-      {/* Save Button */}
       <div className="flex justify-end">
         <button
           onClick={handleSave}

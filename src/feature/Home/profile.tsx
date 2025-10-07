@@ -22,7 +22,7 @@ useEffect(() => {
   const storedData =
     typeof window !== "undefined" ? localStorage.getItem("signup") : null;
 
-  let parsedData: Partial<typeof input> = {}; // ✅ fixed type instead of 'any'
+  let parsedData: Partial<typeof input> = {}; 
 
   if (storedData) parsedData = JSON.parse(storedData);
 
@@ -38,8 +38,6 @@ useEffect(() => {
     age: parsedData.age || "30",
   });
 }, [profile]);
-
-  // 🔹 Save changes to localStorage (to persist on refresh)
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("signup", JSON.stringify(input));
@@ -58,8 +56,6 @@ useEffect(() => {
             height={200}
             className="h-90 w-full object-cover rounded-t-lg"
           />
-
-          {/* Profile Picture or Name Letter */}
           <div className="absolute -bottom-14 left-8">
             {profile.image ? (
               <Image
@@ -76,8 +72,6 @@ useEffect(() => {
             )}
           </div>
         </div>
-
-        {/* Profile Header */}
         <div className="px-8 mt-16">
           <h1 className="text-2xl font-bold text-gray-900">
             {input.firstName} {input.lastName}
@@ -125,8 +119,6 @@ useEffect(() => {
             </span>
           </div>
         </div>
-
-        {/* Profile Form */}
         <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="text-sm font-medium text-gray-600">
