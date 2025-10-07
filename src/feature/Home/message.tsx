@@ -28,13 +28,16 @@ export default function Message() {
   const [searchTerm, setSearchTerm] = useState('');
   const [newMessage, setNewMessage] = useState('');
   const [showDeleteMenu, setShowDeleteMenu] = useState(false);
+
   useEffect(() => {
     const stored = localStorage.getItem('chatContacts');
     if (stored) setContacts(JSON.parse(stored));
   }, []);
+
   useEffect(() => {
     localStorage.setItem('chatContacts', JSON.stringify(contacts));
   }, [contacts]);
+
   useEffect(() => {
     if (profile?.name) {
       setContacts((prev) => {
@@ -49,6 +52,7 @@ export default function Message() {
             active: true,
             messages: [
               { sender: 'me', text: 'Hey! This is my new account 😄', time: 'Just now' },
+              { sender: 'them', text: 'Hi! I’m your AI chat buddy 🤖', time: 'Just now' },
             ],
           },
           ...prev,
@@ -66,6 +70,10 @@ export default function Message() {
   const handleSendMessage = () => {
     if (!newMessage.trim() || !activeContactId) return;
 
+    const messageText = newMessage;
+    setNewMessage('');
+
+    // Add user message
     setContacts((prev) =>
       prev.map((c) =>
         c.id === activeContactId
@@ -73,14 +81,57 @@ export default function Message() {
               ...c,
               messages: [
                 ...c.messages,
-                { sender: 'me', text: newMessage, time: 'Just now' },
+                { sender: 'me', text: messageText, time: 'Just now' },
               ],
             }
           : c
       )
     );
 
-    setNewMessage('');
+    // Simulated AI reply after a short delay
+    setTimeout(() => {
+      const reply = getAIReply(messageText);
+      setContacts((prev) =>
+        prev.map((c) =>
+          c.id === activeContactId
+            ? {
+                ...c,
+                messages: [
+                  ...c.messages,
+                  { sender: 'them', text: reply, time: 'Just now' },
+                ],
+              }
+            : c
+        )
+      );
+    }, 1200);
+  };
+
+  // 🔹 Simple AI reply generator
+  const getAIReply = (userText: string): string => {
+    const text = userText.toLowerCase();
+
+    if (text.includes('hello') || text.includes('hi')) {
+      return 'Hello! 👋 How are you today?';
+    } else if (text.includes('how are you')) {
+      return "I'm just a bot, but I'm feeling great 😄 What about you?";
+    } else if (text.includes('your name')) {
+      return "I'm your AI assistant 🤖 — here to chat with you!";
+    } else if (text.includes('bye')) {
+      return 'Goodbye! 👋 Talk to you soon.';
+    } else if (text.includes('thanks')) {
+      return "You're very welcome 😊";
+    } else {
+      // default random replies
+      const replies = [
+        "That's interesting! Tell me more.",
+        "Hmm 🤔 I see what you mean.",
+        "Really? That’s cool!",
+        "I’m listening 👂 go on...",
+        "Haha 😄 that’s funny!",
+      ];
+      return replies[Math.floor(Math.random() * replies.length)];
+    }
   };
 
   const handleDeleteChat = (id: number) => {
@@ -114,12 +165,10 @@ export default function Message() {
             <p className="text-xs text-slate-500">Online</p>
           </div>
         </div>
+
         <div className="p-4 border-b border-slate-200">
           <div className="relative">
-            <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-              size={18}
-            />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
               placeholder="Search messages..."
@@ -129,6 +178,7 @@ export default function Message() {
             />
           </div>
         </div>
+
         <div className="flex-1 overflow-y-auto">
           {filteredContacts.map((contact) => (
             <button
@@ -153,9 +203,7 @@ export default function Message() {
               )}
               <div className="flex-1 min-w-0 text-left">
                 <div className="flex items-center justify-between mb-1">
-                  <h4 className="font-semibold text-slate-800 truncate">
-                    {contact.name}
-                  </h4>
+                  <h4 className="font-semibold text-slate-800 truncate">{contact.name}</h4>
                   <span className="text-xs text-slate-500">
                     {contact.messages[contact.messages.length - 1]?.time}
                   </span>
@@ -168,6 +216,8 @@ export default function Message() {
           ))}
         </div>
       </div>
+
+      {/* Chat Window */}
       <div className="flex-1 flex flex-col relative">
         {activeContact ? (
           <>
@@ -187,9 +237,7 @@ export default function Message() {
                   </div>
                 )}
                 <div>
-                  <h3 className="font-semibold text-slate-800">
-                    {activeContact.name}
-                  </h3>
+                  <h3 className="font-semibold text-slate-800">{activeContact.name}</h3>
                   <p className="text-xs text-teal-600">Active now</p>
                 </div>
               </div>
@@ -214,14 +262,10 @@ export default function Message() {
                 )}
               </div>
             </div>
+
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
               {activeContact.messages.map((msg, idx) => (
-                <div
-                  key={idx}
-                  className={`flex ${
-                    msg.sender === 'me' ? 'justify-end' : 'justify-start'
-                  }`}
-                >
+                <div key={idx} className={`flex ${msg.sender === 'me' ? 'justify-end' : 'justify-start'}`}>
                   <div className="max-w-md">
                     <div
                       className={`px-4 py-3 rounded-2xl ${
@@ -243,6 +287,7 @@ export default function Message() {
                 </div>
               ))}
             </div>
+
             <div className="p-4 border-t border-slate-200">
               <div className="flex items-end gap-3">
                 <div className="flex-1 bg-slate-50 rounded-lg border border-slate-200 focus-within:border-teal-500 transition-colors">
