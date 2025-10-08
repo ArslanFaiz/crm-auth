@@ -143,6 +143,7 @@ export default function Message() {
   };
 
   return (
+    <div className='p-8'>
     <div className="h-full flex bg-white rounded-xl shadow-sm overflow-hidden">
       {/* Sidebar */}
       <div className="w-80 border-r border-slate-200 flex flex-col">
@@ -323,6 +324,7 @@ export default function Message() {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }

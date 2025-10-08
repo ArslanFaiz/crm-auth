@@ -45,7 +45,7 @@ useEffect(() => {
   }, [input]);
 
   return (
-    <div className="min-h-screen w-full">
+    <div className="min-h-screen w-full p-8">
       <div className="bg-white shadow-lg rounded-lg w-full max-w-7xl">
         {/* Banner */}
         <div className="relative">

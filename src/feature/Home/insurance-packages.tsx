@@ -46,7 +46,7 @@ export default function InsurancePackages() {
   const firstLetter = userName?.charAt(0).toUpperCase() || 'U';
 
   return (
-    <div className="flex min-h-screen bg-white">
+    <div className="flex min-h-screen">
       {/* Sidebar */}
       <aside className="w-[200px] bg-[#1C274C] text-white flex flex-col">
         <div className="p-6">
@@ -118,7 +118,7 @@ export default function InsurancePackages() {
             </Button>
           </Link>
         </header>
-        <div className="p-8 border rounded-tl-lg bg-white flex-1 min-h-[calc(100vh-80px)]">
+        <div className="  bg-white flex-1 min-h-[calc(100vh-80px)]">
           {activeTab === 'dashboard' && (
             <div className="h-full w-full">
               <Profile />
@@ -126,14 +126,14 @@ export default function InsurancePackages() {
           )}
           {activeTab === 'packages' && (
             <>
-              <div className="mb-8">
+              <div className="p-8">
                 <h1 className="text-4xl font-bold text-[#1C1C1C] mb-2">
                   Latest Insurance Packages
                 </h1>
                 <p className="text-[#1C1C1C]">Select Your Desired & Good Package</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid p-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {insuranceData.map((pkg) => (
                   <Card
                     key={pkg.id}
