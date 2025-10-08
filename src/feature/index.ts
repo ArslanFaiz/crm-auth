@@ -4,3 +4,5 @@ export { default as Signup } from './auth/signup';
 export { default as InsurancePackages } from './Home/insurance-packages';
 export { default as Profile } from './Home/profile';
 export { default as Setting } from './Home/setting';
+export { default as Message } from './Home/message';
+export { Thankyou } from './Home/thankyou';

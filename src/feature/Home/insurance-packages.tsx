@@ -10,10 +10,10 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useAppSelector } from '@/app/redux/store';
 
-// ✅ Import your components
 import Profile from './profile';
 import Message from './message';
 import Setting from './setting';
+import { Thankyou } from './thankyou';
 
 interface SignupData {
   firstName?: string;
@@ -25,6 +25,7 @@ export default function InsurancePackages() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const profileData = useAppSelector((state) => state.user);
   const [userName, setUserName] = useState('');
+  const [showThankyou, setShowThankyou] = useState(false); 
   useEffect(() => {
     const storedData =
       typeof window !== 'undefined' ? localStorage.getItem('signup') : null;
@@ -47,7 +48,6 @@ export default function InsurancePackages() {
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
       <aside className="w-[200px] bg-[#1C274C] text-white flex flex-col">
         <div className="p-6">
           <Image src={logo} alt="Logo" className="w-[200px] h-[24px]" />
@@ -84,6 +84,7 @@ export default function InsurancePackages() {
             <span>Settings</span>
           </button>
         </nav>
+
         <div className="p-4 border-t border-[#3d5170]">
           <div className="flex items-center gap-3 mb-4">
             {profileData?.image ? (
@@ -95,7 +96,7 @@ export default function InsurancePackages() {
                 className="w-10 h-10 rounded-md object-cover"
               />
             ) : (
-              <div className="w-10 h-10 rounded-md bg-teal-600 from-cyan-400 to-blue-500 flex items-center justify-center text-sm font-semibold">
+              <div className="w-10 h-10 rounded-md bg-teal-600 flex items-center justify-center text-sm font-semibold">
                 {firstLetter}
               </div>
             )}
@@ -106,7 +107,9 @@ export default function InsurancePackages() {
           </div>
         </div>
       </aside>
-      <main className="flex-1">
+
+      <main className="flex-1 relative">
+<Thankyou isOpen={showThankyou} onClose={()=>setShowThankyou(false)}/>
         <header className="bg-[#1C274C] px-8 py-5 flex justify-between items-center">
           <div>
             <p className="text-sm text-white">Welcome Back! {userName}</p>
@@ -118,19 +121,18 @@ export default function InsurancePackages() {
             </Button>
           </Link>
         </header>
-        <div className="  bg-white flex-1 min-h-[calc(100vh-80px)]">
-          {activeTab === 'dashboard' && (
-            <div className="h-full w-full">
-              <Profile />
-            </div>
-          )}
+
+        <div className="bg-white flex-1 min-h-[calc(100vh-80px)]">
+          {activeTab === 'dashboard' && <Profile />}
           {activeTab === 'packages' && (
             <>
-              <div className="p-8">
-                <h1 className="text-4xl font-bold text-[#1C1C1C] mb-2">
+              <div className="px-8 py-2">
+                <h1 className="text-4xl font-bold text-[#1C1C1C] mb-1">
                   Latest Insurance Packages
                 </h1>
-                <p className="text-[#1C1C1C]">Select Your Desired & Good Package</p>
+                <p className="text-[#1C1C1C]">
+                  Select Your Desired & Good Package
+                </p>
               </div>
 
               <div className="grid p-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -174,7 +176,11 @@ export default function InsurancePackages() {
                           name="insurance"
                           value={pkg.id}
                           checked={selectedId === pkg.id}
-                          onChange={() => setSelectedId(pkg.id)}
+                          onChange={() => {
+                            setSelectedId(pkg.id);
+                            setShowThankyou(true);
+                            setTimeout(() => setShowThankyou(false), 3000);
+                          }}
                           className={`w-4 h-4 cursor-pointer ${
                             selectedId === pkg.id
                               ? 'accent-[#008EB1]'
@@ -197,18 +203,8 @@ export default function InsurancePackages() {
               </div>
             </>
           )}
-
-          {activeTab === 'messages' && (
-            <div className="h-full w-full">
-              <Message />
-            </div>
-          )}
-
-          {activeTab === 'settings' && (
-            <div className="h-full w-full">
-              <Setting />
-            </div>
-          )}
+          {activeTab === 'messages' && <Message />}
+          {activeTab === 'settings' && <Setting />}
         </div>
       </main>
     </div>
