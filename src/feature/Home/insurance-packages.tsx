@@ -25,7 +25,9 @@ export default function InsurancePackages() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const profileData = useAppSelector((state) => state.user);
   const [userName, setUserName] = useState('');
-  const [showThankyou, setShowThankyou] = useState(false); 
+  const [showThankyou, setShowThankyou] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   useEffect(() => {
     const storedData =
       typeof window !== 'undefined' ? localStorage.getItem('signup') : null;
@@ -47,16 +49,27 @@ export default function InsurancePackages() {
   const firstLetter = userName?.charAt(0).toUpperCase() || 'U';
 
   return (
-    <div className="flex min-h-screen">
-      <aside className="w-[200px] bg-[#1C274C] text-white flex flex-col">
-        <div className="p-6">
-          <Image src={logo} alt="Logo" className="w-[200px] h-[24px]" />
+    <div className="flex min-h-screen flex-col md:flex-row">
+      {/* Sidebar */}
+      <aside
+        className={`bg-[#1C274C] text-white flex flex-col w-full md:w-[200px] fixed md:static z-50 transition-transform duration-300 ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+        }`}
+      >
+        <div className="p-4 flex justify-between items-center md:block">
+          <Image src={logo} alt="Logo" className="w-[150px] h-[20px] md:w-[200px] md:h-[24px]" />
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="text-white md:hidden text-2xl font-bold"
+          >
+            ✕
+          </button>
         </div>
 
-        <nav className="flex-1 py-2 px-4">
+        <nav className="flex-1 py-2 px-2 md:px-4">
           <button
             onClick={() => setActiveTab('dashboard')}
-            className={`w-full flex items-center gap-3 px-6 py-4 text-left rounded-md transition-colors cursor-pointer ${
+            className={`w-full flex items-center gap-3 px-4 md:px-6 py-3 text-left rounded-md transition-colors cursor-pointer ${
               activeTab === 'dashboard' ? 'bg-[#3d5170]' : 'hover:bg-[#3d5170]'
             }`}
           >
@@ -66,7 +79,7 @@ export default function InsurancePackages() {
 
           <button
             onClick={() => setActiveTab('messages')}
-            className={`w-full flex items-center gap-3 px-6 py-4 text-left rounded-md transition-colors cursor-pointer ${
+            className={`w-full flex items-center gap-3 px-4 md:px-6 py-3 text-left rounded-md transition-colors cursor-pointer ${
               activeTab === 'messages' ? 'bg-[#3d5170]' : 'hover:bg-[#3d5170]'
             }`}
           >
@@ -76,7 +89,7 @@ export default function InsurancePackages() {
 
           <button
             onClick={() => setActiveTab('settings')}
-            className={`w-full flex items-center gap-3 px-6 py-4 text-left rounded-md transition-colors cursor-pointer ${
+            className={`w-full flex items-center gap-3 px-4 md:px-6 py-3 text-left rounded-md transition-colors cursor-pointer ${
               activeTab === 'settings' ? 'bg-[#3d5170]' : 'hover:bg-[#3d5170]'
             }`}
           >
@@ -108,34 +121,46 @@ export default function InsurancePackages() {
         </div>
       </aside>
 
-      <main className="flex-1 relative">
-<Thankyou isOpen={showThankyou} onClose={()=>setShowThankyou(false)}/>
-        <header className="bg-[#1C274C] px-8 py-5 flex justify-between items-center">
-          <div>
-            <p className="text-sm text-white">Welcome Back! {userName}</p>
+      {/* Main Section */}
+      <main className="flex-1 relative md:ml-0">
+        <Thankyou isOpen={showThankyou} onClose={() => setShowThankyou(false)} />
+
+        {/* Header */}
+        <header className="bg-[#1C274C] px-4 md:px-8 py-4 flex justify-between items-center sticky top-0 z-40">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="text-white text-2xl md:hidden"
+            >
+              ☰
+            </button>
+            <p className="text-sm md:text-base text-white">
+              Welcome Back! {userName}
+            </p>
           </div>
           <Link href="/">
-            <Button className="gap-2 bg-[#008EB1] text-white cursor-pointer">
+            <Button className="gap-2 bg-[#008EB1] text-white cursor-pointer px-3 py-1.5 md:px-4 md:py-2">
               <LogOut className="w-4 h-4" />
               Logout
             </Button>
           </Link>
         </header>
 
+        {/* Content */}
         <div className="bg-white flex-1 min-h-[calc(100vh-80px)]">
           {activeTab === 'dashboard' && <Profile />}
           {activeTab === 'packages' && (
             <>
-              <div className="px-8 py-2">
-                <h1 className="text-4xl font-bold text-[#1C1C1C] mb-1">
+              <div className="px-4 md:px-8 py-3 md:py-4">
+                <h1 className="text-2xl md:text-4xl font-bold text-[#1C1C1C] mb-1">
                   Latest Insurance Packages
                 </h1>
-                <p className="text-[#1C1C1C]">
+                <p className="text-sm md:text-base text-[#1C1C1C]">
                   Select Your Desired & Good Package
                 </p>
               </div>
 
-              <div className="grid p-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid px-4 md:px-8 pb-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {insuranceData.map((pkg) => (
                   <Card
                     key={pkg.id}
@@ -149,9 +174,9 @@ export default function InsurancePackages() {
                         className="object-cover"
                       />
                     </div>
-                    <div className="p-6">
+                    <div className="p-4 md:p-6">
                       <h3
-                        className={`text-xl font-semibold mb-2 ${
+                        className={`text-lg md:text-xl font-semibold mb-2 ${
                           pkg.id === 1
                             ? 'text-teal-600'
                             : pkg.id === 2
@@ -161,11 +186,11 @@ export default function InsurancePackages() {
                       >
                         {pkg.title}
                       </h3>
-                      <p className="text-sm text-gray-600 mb-6 leading-relaxed">
+                      <p className="text-sm text-gray-600 mb-4 md:mb-6 leading-relaxed">
                         {pkg.description}
                       </p>
-                      <div className="mb-4">
-                        <p className="text-3xl font-bold text-cyan-500">
+                      <div className="mb-3 md:mb-4">
+                        <p className="text-2xl md:text-3xl font-bold text-cyan-500">
                           $ {pkg.price}
                         </p>
                       </div>
