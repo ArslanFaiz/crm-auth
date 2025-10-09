@@ -68,7 +68,10 @@ export default function InsurancePackages() {
 
         <nav className="flex-1 py-2 px-2 md:px-4">
           <button
-            onClick={() => setActiveTab('dashboard')}
+            onClick={() =>{ 
+              setActiveTab('dashboard')
+            setSidebarOpen(false);
+            }}
             className={`w-full flex items-center gap-3 px-4 md:px-6 py-3 text-left rounded-md transition-colors cursor-pointer ${
               activeTab === 'dashboard' ? 'bg-[#3d5170]' : 'hover:bg-[#3d5170]'
             }`}
@@ -78,7 +81,10 @@ export default function InsurancePackages() {
           </button>
 
           <button
-            onClick={() => setActiveTab('messages')}
+            onClick={() => {
+              setActiveTab('messages');
+              setSidebarOpen(false);
+            }}
             className={`w-full flex items-center gap-3 px-4 md:px-6 py-3 text-left rounded-md transition-colors cursor-pointer ${
               activeTab === 'messages' ? 'bg-[#3d5170]' : 'hover:bg-[#3d5170]'
             }`}
@@ -88,7 +94,10 @@ export default function InsurancePackages() {
           </button>
 
           <button
-            onClick={() => setActiveTab('settings')}
+            onClick={() => {
+              setActiveTab('settings');
+              setSidebarOpen(false);
+            }}
             className={`w-full flex items-center gap-3 px-4 md:px-6 py-3 text-left rounded-md transition-colors cursor-pointer ${
               activeTab === 'settings' ? 'bg-[#3d5170]' : 'hover:bg-[#3d5170]'
             }`}
