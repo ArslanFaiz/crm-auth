@@ -67,7 +67,7 @@ export async function POST(req: Request) {
     }
     return NextResponse.json({ videoUrl });
   } catch (error: unknown) {
-    const err = error as { response?: { data: any }; message: string };
+    const err = error as { response?: { data: unknown }; message: string };
     console.error("Server Error:", err.response?.data || err.message);
     return NextResponse.json(
       { error: "Video generation failed", details: err.response?.data || err.message },
