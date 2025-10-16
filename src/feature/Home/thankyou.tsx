@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { Check } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';  <-- remove this line
 
 interface ThankyouProps {
   isOpen: boolean;

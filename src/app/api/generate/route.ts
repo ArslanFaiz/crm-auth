@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
     const apiKey = process.env.DID_API_KEY;
     if (!apiKey) {
-      console.error("❌ Missing DID_API_KEY");
+      console.error(" Missing DID_API_KEY");
       return NextResponse.json({ error: "Missing DID_API_KEY" }, { status: 500 });
     }
 
@@ -37,9 +37,7 @@ export async function POST(req: Request) {
     );
 
     const talkId = createRes.data.id;
-    console.log("✅ Talk created:", talkId);
-
-    // polling for result
+    console.log("Talk created:", talkId);
     let videoUrl = "";
     for (let i = 0; i < 20; i++) {
       const statusRes = await axios.get(`https://api.d-id.com/talks/${talkId}`, {
@@ -51,10 +49,10 @@ export async function POST(req: Request) {
 
       if (status === "done" && statusRes.data.result_url) {
         videoUrl = statusRes.data.result_url;
-        console.log("🎉 Video ready:", videoUrl);
+        console.log(" Video ready:", videoUrl);
         break;
       } else if (status === "error") {
-        console.error("❌ D-ID error:", statusRes.data);
+        console.error(" D-ID error:", statusRes.data);
         return NextResponse.json(
           { error: "Video generation failed", details: statusRes.data },
           { status: 500 }
@@ -67,12 +65,12 @@ export async function POST(req: Request) {
     if (!videoUrl) {
       return NextResponse.json({ error: "Timeout waiting for video" }, { status: 504 });
     }
-
     return NextResponse.json({ videoUrl });
-  } catch (error: any) {
-    console.error("💥 Server Error:", error.response?.data || error.message);
+  } catch (error: unknown) {
+    const err = error as { response?: { data: any }; message: string };
+    console.error("Server Error:", err.response?.data || err.message);
     return NextResponse.json(
-      { error: "Video generation failed", details: error.response?.data || error.message },
+      { error: "Video generation failed", details: err.response?.data || err.message },
       { status: 500 }
     );
   }
