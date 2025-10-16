@@ -1,6 +1,6 @@
 'use client';
 
-import { Chrome as HomeIcon, MessageSquare, Settings, LogOut } from 'lucide-react';
+import { Chrome as HomeIcon, MessageSquare, Settings, LogOut, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { insuranceData } from '@/constants/InsuranceData';
@@ -14,6 +14,7 @@ import Profile from './profile';
 import Message from './message';
 import Setting from './setting';
 import { Thankyou } from './thankyou';
+import Avatar from './avatar'
 
 interface SignupData {
   firstName?: string;
@@ -21,7 +22,7 @@ interface SignupData {
 }
 
 export default function InsurancePackages() {
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'messages' | 'settings' | 'packages'>('packages');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'messages' | 'settings' | 'packages' | 'avatar'>('packages');
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const profileData = useAppSelector((state) => state.user);
   const [userName, setUserName] = useState('');
@@ -68,9 +69,9 @@ export default function InsurancePackages() {
 
         <nav className="flex-1 py-2 px-2 md:px-4">
           <button
-            onClick={() =>{ 
-              setActiveTab('dashboard')
-            setSidebarOpen(false);
+            onClick={() => {
+              setActiveTab('dashboard');
+              setSidebarOpen(false);
             }}
             className={`w-full flex items-center gap-3 px-4 md:px-6 py-3 text-left rounded-md transition-colors cursor-pointer ${
               activeTab === 'dashboard' ? 'bg-[#3d5170]' : 'hover:bg-[#3d5170]'
@@ -104,6 +105,20 @@ export default function InsurancePackages() {
           >
             <Settings className="w-5 h-5" />
             <span>Settings</span>
+          </button>
+
+          {/* ✅ New Avatar tab */}
+          <button
+            onClick={() => {
+              setActiveTab('avatar');
+              setSidebarOpen(false);
+            }}
+            className={`w-full flex items-center gap-3 px-4 md:px-6 py-3 text-left rounded-md transition-colors cursor-pointer ${
+              activeTab === 'avatar' ? 'bg-[#3d5170]' : 'hover:bg-[#3d5170]'
+            }`}
+          >
+            <User className="w-5 h-5" />
+            <span>Avatar</span>
           </button>
         </nav>
 
@@ -158,6 +173,7 @@ export default function InsurancePackages() {
         {/* Content */}
         <div className="bg-white flex-1 min-h-[calc(100vh-80px)]">
           {activeTab === 'dashboard' && <Profile />}
+
           {activeTab === 'packages' && (
             <>
               <div className="px-4 md:px-8 py-3 md:py-4">
@@ -237,8 +253,10 @@ export default function InsurancePackages() {
               </div>
             </>
           )}
+
           {activeTab === 'messages' && <Message />}
           {activeTab === 'settings' && <Setting />}
+          {activeTab === 'avatar' && <Avatar />} {/* ✅ New tab render */}
         </div>
       </main>
     </div>
